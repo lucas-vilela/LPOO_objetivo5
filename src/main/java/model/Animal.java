@@ -14,14 +14,15 @@ public class Animal {
 	private List<Tratamento> tratamentos = new ArrayList<>();
 	
 	
-	
-	public Animal(Integer id_animal, String nome_animal, Integer idade_animal, Integer sexo_animal,
-			List<Tratamento> tratamentos) {
+	public Animal(Integer id_animal, String nome_animal, Integer idade_animal, Integer sexo_animal, Especie especie,
+			Cliente cliente, List<Tratamento> tratamentos) {
 		super();
 		this.id_animal = id_animal;
 		this.nome_animal = nome_animal;
 		this.idade_animal = idade_animal;
 		this.sexo_animal = sexo_animal;
+		this.especie = especie;
+		this.cliente = cliente;
 		this.tratamentos = tratamentos;
 	}
 
@@ -61,6 +62,22 @@ public class Animal {
 		this.sexo_animal = sexo_animal;
 	}
 
+	public Especie getEspecie() {
+		return especie;
+	}
+
+	public void setEspecie(Especie especie) {
+		this.especie = especie;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
 	public List<Tratamento> getTratamentos() {
 		return tratamentos;
 	}
@@ -71,12 +88,17 @@ public class Animal {
 
 	@Override
 	public String toString() {
-		return "\nAnimal: \n		| ID=" + id_animal + " \n		"
-								 + "| Nome=" + nome_animal + " \n		"
-							     + "| Idade=" + idade_animal + " \n		"
-							     + "| Sexo(0-Macho/1-Fêmea)=" + sexo_animal + " \n		"
-							     + "| Tratamentos=" + tratamentos + "]";
+		return"\n\n    ID do pet: " + id_animal + 
+			    "\n    Nome: " + nome_animal + 
+			    "\n    Idade: " + idade_animal + 
+			    "\n    Sexo (0-Fêmea / 1-Macho) : " + sexo_animal + 
+			    //"\n    Especie: " + especie.getNom_esp() + 
+			    //"\n    Dono(a): " + cliente.getNom_cli() + 
+			    "\n    Tratamentos: " + tratamentos;
 	}
+	
+	
+	
 
 	
 }

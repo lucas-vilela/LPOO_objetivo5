@@ -70,8 +70,11 @@ public class Veterinario {
 	
 	@Override
 	public String toString() {
-		return "Veterinario [id_vet=" + id_vet + ", nom_vet=" + nom_vet + ", end_vet=" + end_vet + ", tel_vet="
-				+ tel_vet + ", consultas=" + consultas + "]";
+		return "\n\n    ID do veterinário: " + id_vet + 
+				 "\n    Nome: " + nom_vet + 
+				 "\n    Endereço: " + end_vet + 
+				 "\n    Telefone: " + tel_vet + 
+				 "\n    Consultas: " + consultas;
 	}
 	
 	

@@ -11,14 +11,15 @@ public class Consulta {
 	private Tratamento tratamento;
 	private Veterinario veterinario;
 	private List<Exame> exames = new ArrayList<>();
-	
-	
-	
-	public Consulta(Integer id_con, String dat_con, String historico, List<Exame> exames) {
+
+	public Consulta(Integer id_con, String dat_con, String historico, Tratamento tratamento, Veterinario veterinario,
+			List<Exame> exames) {
 		super();
 		this.id_con = id_con;
 		this.dat_con = dat_con;
 		this.historico = historico;
+		this.tratamento = tratamento;
+		this.veterinario = veterinario;
 		this.exames = exames;
 	}
 
@@ -50,6 +51,22 @@ public class Consulta {
 		this.historico = historico;
 	}
 
+	public Tratamento getTratamento() {
+		return tratamento;
+	}
+
+	public void setTratamento(Tratamento tratamento) {
+		this.tratamento = tratamento;
+	}
+
+	public Veterinario getVeterinario() {
+		return veterinario;
+	}
+
+	public void setVeterinario(Veterinario veterinario) {
+		this.veterinario = veterinario;
+	}
+
 	public List<Exame> getExames() {
 		return exames;
 	}
@@ -60,10 +77,8 @@ public class Consulta {
 
 	@Override
 	public String toString() {
-		return "Consulta [id_con=" + id_con + ", dat_con=" + dat_con + ", historico=" + historico + ", exames=" + exames
-				+ "]";
+		return "Consulta [id_con=" + id_con + ", dat_con=" + dat_con + ", historico=" + historico + ", tratamento="
+				+ tratamento + ", veterinario=" + veterinario + ", exames=" + exames + "]";
 	}
-	
-	
-	
+
 }

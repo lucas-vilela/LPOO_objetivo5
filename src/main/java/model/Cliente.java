@@ -14,8 +14,8 @@ public class Cliente {
 	
 	
 	
-	public Cliente(Integer id_cli, String nom_cli, String end_cli, String tel_cli, String cep_cli, String email_cli,
-			List<Animal> animais) {
+	public Cliente(Integer id_cli, String nom_cli, String end_cli, String tel_cli, String cep_cli, String email_cli
+		) {
 		super();
 		this.id_cli = id_cli;
 		this.nom_cli = nom_cli;
@@ -23,7 +23,7 @@ public class Cliente {
 		this.tel_cli = tel_cli;
 		this.cep_cli = cep_cli;
 		this.email_cli = email_cli;
-		this.animais = animais;
+		//this.animais = animais;
 	}
 
 	public Cliente() {
@@ -88,8 +88,13 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [id_cli=" + id_cli + ", nom_cli=" + nom_cli + ", end_cli=" + end_cli + ", tel_cli=" + tel_cli
-				+ ", cep_cli=" + cep_cli + ", email_cli=" + email_cli + ", animais=" + animais + "]";
+		return"\n\n    ID do Cliente:" + id_cli + 
+				"\n    Nome:" + nom_cli + 
+				"\n    Endereço:" + end_cli + 
+				"\n    Telefone:" + tel_cli +
+				"\n    CEP:" + cep_cli + 
+				"\n    E-mail:" + email_cli ; 
+				//"\n    Pets:" + animais ;
 	}
 	
 	

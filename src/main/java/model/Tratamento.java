@@ -10,13 +10,12 @@ public class Tratamento {
 	private Animal animal;
 	private List<Consulta> consultas = new ArrayList<>();
 	
-	
-	
-	public Tratamento(Integer id_trat, String data_ini, String data_fin, List<Consulta> consultas) {
+	public Tratamento(Integer id_trat, String data_ini, String data_fin, Animal animal, List<Consulta> consultas) {
 		super();
 		this.id_trat = id_trat;
 		this.data_ini = data_ini;
 		this.data_fin = data_fin;
+		this.animal = animal;
 		this.consultas = consultas;
 	}
 
@@ -48,6 +47,14 @@ public class Tratamento {
 		this.data_fin = data_fin;
 	}
 
+	public Animal getAnimal() {
+		return animal;
+	}
+
+	public void setAnimal(Animal animal) {
+		this.animal = animal;
+	}
+
 	public List<Consulta> getConsultas() {
 		return consultas;
 	}
@@ -58,9 +65,10 @@ public class Tratamento {
 
 	@Override
 	public String toString() {
-		return "Tratamento [id_trat=" + id_trat + ", data_ini=" + data_ini + ", data_fin=" + data_fin + ", consultas="
-				+ consultas + "]";
+		return "Tratamento [id_trat=" + id_trat + ", data_ini=" + data_ini + ", data_fin=" + data_fin + ", animal="
+				+ animal + ", consultas=" + consultas + "]";
 	}
+	
 	
 		
 	
