@@ -70,6 +70,26 @@ public class AnimalDAO extends BaseDAO {
 
 	}
 	
+	public static List<Animal> selectAnimaisByCliente2(Integer id_cli) {
+		final String sql = "select * from animal where id_cli=?";
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);	
+			) {
+			pstmt.setInt(1, id_cli);
+			ResultSet rs = pstmt.executeQuery();
+			List<Animal> animais = new ArrayList<>();
+			while (rs.next()) {
+				animais.add(resultsetToAnimal2(rs));
+			}
+			return animais;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
 	
 	
 
@@ -82,6 +102,18 @@ public class AnimalDAO extends BaseDAO {
 		a.setSexo_animal(rs.getInt("sexo_animal"));
 		a.setEspecie(EspecieDAO.selectEspecieById(rs.getInt("id_esp")));
 		//a.setCliente(ClienteDAO.selectClienteById(rs.getInt("id_cli"))); //essa chamada faz o programa entrar em looping infinito
+		return a;
+	}
+	
+	private static Animal resultsetToAnimal2(ResultSet rs) throws SQLException {
+		Animal a = new Animal();
+
+		a.setId_animal(rs.getInt("id_animal"));
+		a.setIdade_animal(rs.getInt("idade_animal"));
+		a.setNome_animal(rs.getString("nome_animal"));
+		a.setSexo_animal(rs.getInt("sexo_animal"));
+		a.setEspecie(EspecieDAO.selectEspecieById(rs.getInt("id_esp")));
+		a.setCliente(ClienteDAO.selectClienteById(rs.getInt("id_cli")));
 		return a;
 	}
 
