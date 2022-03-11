@@ -53,7 +53,7 @@ public class EspecieDAO extends BaseDAO {
 
 		e.setId_esp(rs.getInt("id_esp"));
 		e.setNom_esp(rs.getString("nom_esp"));
-		e.setAnimais(AnimalDAO.selectAnimaisByEspecie(rs.getInt("id_esp")));
+		//e.setAnimais(AnimalDAO.selectAnimaisByEspecie(rs.getInt("id_esp"))); //Essa chamada faz o programa entrar em looping infitino.
 
 		return e;
 	}

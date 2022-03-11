@@ -5,17 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class BaseDAO {
-	private static Connection conn = null;
+	
 	public static Connection getConnection() {
 		
 		try {
-			final String url = "jdbc:mariadb://localhost:3306/teste_1";
-			if(conn != null) {
-				return conn;
-			}else {
-			conn = DriverManager.getConnection(url,"root","0360");
-			return conn;
-			}
+			final String url = "jdbc:mariadb://localhost:3306/lucas";
+			
+			return DriverManager.getConnection(url,"mariadb","mariadb");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

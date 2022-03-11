@@ -13,8 +13,7 @@ public class ClienteDAO extends BaseDAO {
 
 	public static List<Cliente> selectClientes() {
 		final String sql = "select * from cliente";
-		try (
-				Connection conn = getConnection();
+		try (	Connection conn = getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery(sql);
 			) {
@@ -32,10 +31,7 @@ public class ClienteDAO extends BaseDAO {
 
 	public static Cliente selectClienteById(Integer id) {
 		final String sql = "select * from cliente where id_cli=?";
-		try (
-				Connection conn = getConnection(); 
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-			) {
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
 			Cliente cliente = null;
@@ -55,19 +51,15 @@ public class ClienteDAO extends BaseDAO {
 
 		final String sql = "insert into cliente (nom_cli,end_cli,tel_cli,cep_cli,email_cli) values(?,?,?,?,?)";
 
-		try (
-				Connection conn = getConnection(); 
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-				) 
-		{
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, cliente.getNom_cli());
 			pstmt.setString(2, cliente.getEnd_cli());
 			pstmt.setString(3, cliente.getTel_cli());
 			pstmt.setString(4, cliente.getCep_cli());
 			pstmt.setString(5, cliente.getEmail_cli());
-			
+
 			int count = pstmt.executeUpdate();
-			
+
 			return count > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -93,10 +85,10 @@ public class ClienteDAO extends BaseDAO {
 	public static void main(String[] args) {
 		System.out.println(selectClientes());
 //		System.out.println(selectClienteById(3));
-		
+
 //		Cliente cliente = new Cliente(4,"Laura","Barroso","(53) 98112-1232","96043-239","laura@gmail.com");
 //		System.out.println(insertCliente(cliente));
-		
+
 	}
 
 }

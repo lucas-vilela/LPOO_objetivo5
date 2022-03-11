@@ -80,8 +80,8 @@ public class AnimalDAO extends BaseDAO {
 		a.setIdade_animal(rs.getInt("idade_animal"));
 		a.setNome_animal(rs.getString("nome_animal"));
 		a.setSexo_animal(rs.getInt("sexo_animal"));
-		//a.setEspecie(EspecieDAO.selectEspecieById(rs.getInt("id_esp")));
-		//a.setCliente(ClienteDAO.selectClienteById(rs.getInt("id_cli")));
+		a.setEspecie(EspecieDAO.selectEspecieById(rs.getInt("id_esp")));
+		//a.setCliente(ClienteDAO.selectClienteById(rs.getInt("id_cli"))); //essa chamada faz o programa entrar em looping infinito
 		return a;
 	}
 

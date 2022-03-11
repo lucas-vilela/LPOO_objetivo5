@@ -91,9 +91,9 @@ public class Animal {
 		return"\n\n    ID do pet: " + id_animal + 
 			    "\n    Nome: " + nome_animal + 
 			    "\n    Idade: " + idade_animal + 
-			    "\n    Sexo (0-Fêmea / 1-Macho) : " + sexo_animal + 
-			    //"\n    Especie: " + especie.getNom_esp() + 
-			    //"\n    Dono(a): " + cliente.getNom_cli() + 
+			    "\n    Sexo (0-Fï¿½mea / 1-Macho) : " + sexo_animal + 
+			    "\n    Especie: " + especie.getNom_esp() + 
+			    "\n    Dono(a): "  + (cliente != null ? cliente.getNom_cli() : "") +
 			    "\n    Tratamentos: " + tratamentos;
 	}
 	

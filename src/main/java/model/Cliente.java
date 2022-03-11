@@ -90,11 +90,11 @@ public class Cliente {
 	public String toString() {
 		return"\n\n    ID do Cliente:" + id_cli + 
 				"\n    Nome:" + nom_cli + 
-				"\n    Endereço:" + end_cli + 
+				"\n    Endereï¿½o:" + end_cli + 
 				"\n    Telefone:" + tel_cli +
 				"\n    CEP:" + cep_cli + 
-				"\n    E-mail:" + email_cli ; 
-				//"\n    Pets:" + animais ;
+				"\n    E-mail:" + email_cli +
+				"\n    Pets:" + animais ;
 	}
 	
 	
