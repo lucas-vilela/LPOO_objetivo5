@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Animal;
+import model.Cliente;
 
 
 public class AnimalDAO extends BaseDAO {
@@ -21,6 +22,43 @@ public class AnimalDAO extends BaseDAO {
 			List<Animal> animais = new ArrayList<>();
 			while (rs.next()) {
 				animais.add(resultsetToAnimal(rs));
+			}
+			return animais;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
+	public static Animal selectAnimalById(Integer id_animal) {
+		final String sql = "select * from animal where id_animal=?";
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, id_animal);
+			ResultSet rs = pstmt.executeQuery();
+			Animal animal = null;
+			if (rs.next()) {
+				animal = resultsetToAnimal(rs);
+			}
+			rs.close();
+			return animal;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
+	
+	public static List<Animal> selectAnimaisCompleto() {
+		final String sql = "select * from animal";
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery(sql);
+			) {
+			List<Animal> animais = new ArrayList<>();
+			while (rs.next()) {
+				animais.add(resultsetToAnimalCompleto(rs));
 			}
 			return animais;
 		} catch (SQLException e) {
@@ -68,29 +106,43 @@ public class AnimalDAO extends BaseDAO {
 			return null;
 		}
 
-	}
+	}	
 	
-	public static List<Animal> selectAnimaisByCliente2(Integer id_cli) {
-		final String sql = "select * from animal where id_cli=?";
-		try (
-				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(sql);	
-			) {
-			pstmt.setInt(1, id_cli);
-			ResultSet rs = pstmt.executeQuery();
-			List<Animal> animais = new ArrayList<>();
-			while (rs.next()) {
-				animais.add(resultsetToAnimal2(rs));
-			}
-			return animais;
+	
+	public static boolean insertAnimal(Animal animal) {
+
+		final String sql = "insert into animal (id_cli,id_esp,nome_animal,idade_animal,sexo_animal) values(?,?,?,?,?)";
+
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, animal.getCliente().getId_cli());
+			pstmt.setInt(2, animal.getEspecie().getId_esp());
+			pstmt.setString(3, animal.getNome_animal());
+			pstmt.setInt(4, animal.getIdade_animal());
+			pstmt.setInt(5, animal.getSexo_animal());
+
+			int count = pstmt.executeUpdate();
+
+			return count > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
+			return false;
 		}
 
 	}
 	
 	
+	public static void deleteAnimal(int id) {
+		final String sql = "delete from animal where id_animal=?";
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, id);
+			
+			pstmt.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
 	
 
 	private static Animal resultsetToAnimal(ResultSet rs) throws SQLException {
@@ -105,7 +157,7 @@ public class AnimalDAO extends BaseDAO {
 		return a;
 	}
 	
-	private static Animal resultsetToAnimal2(ResultSet rs) throws SQLException {
+	private static Animal resultsetToAnimalCompleto(ResultSet rs) throws SQLException {
 		Animal a = new Animal();
 
 		a.setId_animal(rs.getInt("id_animal"));

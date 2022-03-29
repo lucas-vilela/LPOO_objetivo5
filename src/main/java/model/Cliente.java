@@ -25,6 +25,18 @@ public class Cliente {
 		this.email_cli = email_cli;
 		//this.animais = animais;
 	}
+	
+	public Cliente( String nom_cli, String end_cli, String tel_cli, String cep_cli, String email_cli
+			) {
+			super();
+			this.nom_cli = nom_cli;
+			this.end_cli = end_cli;
+			this.tel_cli = tel_cli;
+			this.cep_cli = cep_cli;
+			this.email_cli = email_cli;
+			//this.animais = animais;
+		}
+	
 
 	public Cliente() {
 		super();
@@ -90,7 +102,7 @@ public class Cliente {
 	public String toString() {
 		return"\n\n    ID do Cliente:" + id_cli + 
 				"\n    Nome:" + nom_cli + 
-				"\n    Endereï¿½o:" + end_cli + 
+				"\n    Endereço:" + end_cli + 
 				"\n    Telefone:" + tel_cli +
 				"\n    CEP:" + cep_cli + 
 				"\n    E-mail:" + email_cli +

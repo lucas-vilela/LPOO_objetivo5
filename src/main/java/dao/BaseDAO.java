@@ -9,9 +9,9 @@ public class BaseDAO {
 	public static Connection getConnection() {
 		
 		try {
-			final String url = "jdbc:mariadb://localhost:3306/lucas";
+			final String url = "jdbc:mariadb://localhost:3306/teste_1";
 			
-			return DriverManager.getConnection(url,"mariadb","mariadb");
+			return DriverManager.getConnection(url,"root","0360");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.AnimalDAO;
+
 public class Consulta {
 
 	private Integer id_con;
@@ -77,8 +79,13 @@ public class Consulta {
 
 	@Override
 	public String toString() {
-		return "Consulta [id_con=" + id_con + ", dat_con=" + dat_con + ", historico=" + historico + ", tratamento="
-				+ tratamento + ", veterinario=" + veterinario + ", exames=" + exames + "]";
+		return "\n    Id Consulta: " + id_con + 
+			   "\n    Data da Consulta: " + dat_con + 
+			   "\n    Historico: " + historico + 
+			   "\n    Id Tratamento: "+ tratamento.getId_trat() +
+			   "\n    Pet: "+ AnimalDAO.selectAnimalById(tratamento.getAnimal().getId_animal()).getNome_animal() + 
+			   "\n    Veterinario(a)=" + veterinario.getNom_vet() +
+			   "\n    Exames=" + exames + "\n";// TENTAR FAZER UM FOR POR INDICES DA LISTA DE EXAMES COM O TOSTRING MODIFICADO
 	}
 
 }

@@ -25,6 +25,17 @@ public class Animal {
 		this.cliente = cliente;
 		this.tratamentos = tratamentos;
 	}
+	
+	public Animal(String nome_animal, Integer idade_animal, Integer sexo_animal, Especie especie,
+			Cliente cliente) {
+		super();
+		this.nome_animal = nome_animal;
+		this.idade_animal = idade_animal;
+		this.sexo_animal = sexo_animal;
+		this.especie = especie;
+		this.cliente = cliente;
+
+	}
 
 	public Animal() {
 		super();
@@ -91,7 +102,7 @@ public class Animal {
 		return"\n\n    ID do pet: " + id_animal + 
 			    "\n    Nome: " + nome_animal + 
 			    "\n    Idade: " + idade_animal + 
-			    "\n    Sexo (0-Fï¿½mea / 1-Macho) : " + sexo_animal + 
+			    "\n    Sexo (0-Fêmea / 1-Macho) : " + sexo_animal + 
 			    "\n    Especie: " + especie.getNom_esp() + 
 			    "\n    Dono(a): "  + (cliente != null ? cliente.getNom_cli() : "") +
 			    "\n    Tratamentos: " + tratamentos;

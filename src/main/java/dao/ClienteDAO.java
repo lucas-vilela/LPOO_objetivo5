@@ -7,12 +7,32 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 import model.Cliente;
 
 public class ClienteDAO extends BaseDAO {
 
 	public static List<Cliente> selectClientes() {
 		final String sql = "select * from cliente";
+		try (	Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery(sql);
+			) {
+			List<Cliente> clientes = new ArrayList<>();
+			while (rs.next()) {
+				clientes.add(resultsetToCliente(rs));
+			}
+			return clientes;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
+	public static List<Cliente> selectClientesNomeID() {
+		final String sql = "select nom_cli,id_cli from cliente";
 		try (	Connection conn = getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery(sql);
@@ -67,6 +87,20 @@ public class ClienteDAO extends BaseDAO {
 		}
 
 	}
+	
+	public static void deleteCliente(int id) {
+		final String sql = "delete from cliente where id_cli=?";
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, id);
+			
+			pstmt.executeQuery();		
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 
 	private static Cliente resultsetToCliente(ResultSet rs) throws SQLException {
 		Cliente c = new Cliente();
@@ -81,10 +115,11 @@ public class ClienteDAO extends BaseDAO {
 
 		return c;
 	}
-
+	
+	
 	public static void main(String[] args) {
-		System.out.println(selectClientes());
-//		System.out.println(selectClienteById(3));
+		//System.out.println(selectClientes());
+		//System.out.println(selectClientesNomeID());
 
 //		Cliente cliente = new Cliente(4,"Laura","Barroso","(53) 98112-1232","96043-239","laura@gmail.com");
 //		System.out.println(insertCliente(cliente));

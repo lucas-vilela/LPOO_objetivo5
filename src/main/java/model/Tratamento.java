@@ -18,6 +18,15 @@ public class Tratamento {
 		this.animal = animal;
 		this.consultas = consultas;
 	}
+	
+	public Tratamento(String data_ini, String data_fin, Animal animal, List<Consulta> consultas) {
+		super();
+		
+		this.data_ini = data_ini;
+		this.data_fin = data_fin;
+		this.animal = animal;
+		this.consultas = consultas;
+	}
 
 	public Tratamento() {
 		super();
@@ -65,8 +74,11 @@ public class Tratamento {
 
 	@Override
 	public String toString() {
-		return "Tratamento [id_trat=" + id_trat + ", data_ini=" + data_ini + ", data_fin=" + data_fin + ", animal="
-				+ animal + ", consultas=" + consultas + "]";
+		return "\n    Id Tratamento: " + id_trat + 
+			   "\n    Data de início: " + data_ini + 
+			   "\n    Data de término: " + data_fin + 
+			   "\n    Pet: " + animal.getNome_animal() + 
+			   "\n    Consultas:\n" + consultas + "\n";
 	}
 	
 	

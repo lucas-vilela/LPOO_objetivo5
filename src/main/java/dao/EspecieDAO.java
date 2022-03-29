@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Especie;
+import model.Exame;
 
 public class EspecieDAO extends BaseDAO {
 
@@ -44,6 +45,37 @@ public class EspecieDAO extends BaseDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		}
+
+	}
+	
+	public static boolean insertEspecie(Especie esp) {
+
+		final String sql = "insert into especie (nom_esp) values(?)";
+
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setString(1, esp.getNom_esp());
+
+			int count = pstmt.executeUpdate();
+
+			return count > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+	
+	
+	public static void deleteEspecie(int id) {
+		final String sql = "delete from especie where id_esp=?";
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, id);
+			
+			pstmt.executeQuery();		
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 	}

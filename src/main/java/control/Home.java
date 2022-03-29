@@ -13,13 +13,14 @@ public class Home {
 		do {
 			System.out.println("================== HOME =================");
 			System.out.println(
-					  "\n    1) Manter Clientes."
-					+ "\n    2) Manter Pets."
-					+ "\n    3) Manter Consultas."
-					+ "\n    4) Manter Especies."
-					+ "\n    5) Manter Exames."
-					+ "\n    6) Manter Tratamentos."
-					+ "\n    7) Manter Veterinarios."
+					  "\n    1) Realizar Consulta.\n"
+					+ "\n    2) Manter CLientes."
+					+ "\n    3) Manter Pets."
+					+ "\n    4) Manter Consultas."
+					+ "\n    5) Manter Especies."
+					+ "\n    6) Manter Exames."
+					+ "\n    7) Manter Tratamentos."
+					+ "\n    8) Manter Veterinarios."
 					+ "\n\n    Pressione 0 para sair...\n"
 					);
 			System.out.println("=========================================");
@@ -27,24 +28,27 @@ public class Home {
 			switch(opcao) {
 			
 			case 1:
-				ClienteController.main(null);
+				ConsultarController.main(null);
 				break;
 			case 2:
-				AnimalController.main(null);
+				ClienteController.main(null);
 				break;
 			case 3:
-				ConsultaController.main(null);
+				AnimalController.main(null);
 				break;
 			case 4:
-				EspecieController.main(null);
+				ConsultaController.main(null);
 				break;
 			case 5:
-				ExameController.main(null);
+				EspecieController.main(null);
 				break;
 			case 6:
-				TratamentoController.main(null);
+				ExameController.main(null);
 				break;
 			case 7:
+				TratamentoController.main(null);
+				break;
+			case 8:
 				VeterinarioController.main(null);
 				break;
 				default:
