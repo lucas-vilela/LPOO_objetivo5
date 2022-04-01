@@ -1,6 +1,11 @@
 package control;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,13 +25,14 @@ public class ConsultarController {
 
 private static Consulta consulta = new Consulta();
 private static List<Exame>  exames = new ArrayList();
+private static GregorianCalendar dataDaConsulta = new GregorianCalendar();
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 
 		Scanner input = new Scanner(System.in);
 
-		ConsultaDAO.insertConsultaVazia();
-		consulta.setId_con(ConsultaDAO.selectConsultaByLastID().getId_con()); // PRECISEI SETAR O ID AQUI PARA USAR LÁ EM EXAMES
+//		ConsultaDAO.insertConsultaVazia();
+//		consulta.setId_con(ConsultaDAO.selectConsultaByLastID().getId_con()); // PRECISEI SETAR O ID AQUI PARA USAR LÁ EM EXAMES
 		
 		int opcao = 0;
 
@@ -74,6 +80,9 @@ private static List<Exame>  exames = new ArrayList();
 
 		Scanner input = new Scanner(System.in);
 		String comentario;
+//		consulta.setDat_con(dataDaConsulta);
+	
+		
 
 		System.out.println("\n*************** COMENTAR ****************\n");
 
@@ -87,29 +96,38 @@ private static List<Exame>  exames = new ArrayList();
 		return comentario;
 	}
 
-	public static Tratamento insertTratamento() {
+	public static Tratamento insertTratamento() throws ParseException {
 
 		Scanner input = new Scanner(System.in);
-		String data_ini, data_fin;
+		Calendar data_ini = Calendar.getInstance();
+		Calendar data_fin = Calendar.getInstance();
 		Integer id_animal;
+		String data;
 
 		System.out.println("\n************** TRATAMENTO ***************\n");
 
 		System.out.println("ID do pet:");
 		id_animal = input.nextInt();
 		input.nextLine();
-		System.out.println("Data inicial:");
-		data_ini = input.nextLine();
-		System.out.println("Data final:");
-		data_fin = input.nextLine();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+		
+		System.out.println("Data inicial: DD/MM/YYYY");
+		data = input.nextLine();
+		data_fin.setTime(sdf.parse(data));
+		
+		System.out.println("Data final: DD/MM/YYYY");
+		data = input.nextLine();
+		data_ini.setTime(sdf.parse(data));
+		
 
 		Tratamento tratamento = new Tratamento();
 		tratamento.setAnimal(AnimalDAO.selectAnimalById(id_animal));
 		tratamento.setData_ini(data_ini);
 		tratamento.setData_fin(data_fin);
-		TratamentoDAO.insertTratamento(tratamento); //NESCESSÁRIO INSERIR O TRATAMENTO PRA PEGAR O ID PRA INSERIR NA CONSULTA. EXCLUIR SE NÃO FOR REGISTRADA A CONSULTA
+//		TratamentoDAO.insertTratamento(tratamento); //NESCESSÁRIO INSERIR O TRATAMENTO PRA PEGAR O ID PRA INSERIR NA CONSULTA. EXCLUIR SE NÃO FOR REGISTRADA A CONSULTA
 		
-		consulta.setTratamento(TratamentoDAO.selectTratamentoByLastID());
+		consulta.setTratamento(tratamento);
 
 		System.out.println("\n*****************************************\n");
 		
@@ -127,8 +145,9 @@ private static List<Exame>  exames = new ArrayList();
 		Exame exame = new Exame();
 		exame.setDes_exame(des_exame);
 		exame.setConsulta(consulta);
-		ExameDAO.insertExame(exame);
-		exames.add(ExameDAO.selectExameByLastID());
+//		ExameDAO.insertExame(exame);
+		exames.add(exame);
+		
 		consulta.setExames(exames);
 		
 		
@@ -139,22 +158,27 @@ private static List<Exame>  exames = new ArrayList();
 
 	public static void insertVeterianario() {
 		Scanner input = new Scanner(System.in);
-		Integer veterinario;
+		Integer id_veterinario;
+		Veterinario veterinario;
 
 		System.out.println("\n************** VETERINÁRIO **************\n");
 		System.out.println("ID do veterinário:");
-		veterinario = input.nextInt();
+		id_veterinario = input.nextInt();
+		veterinario = VeterinarioDAO.selectVeterinarioById(id_veterinario);
 		
-		consulta.setVeterinario(VeterinarioDAO.selectVeterinarioById(veterinario));;
+		consulta.setVeterinario(veterinario);
 		
 		
 		System.out.println("\n*****************************************\n");
 	}
 	
 	public static void registraConsulta() {
-
-		consulta.setDat_con("00/00/00"); 
-		ConsultaDAO.updateConsultaCompleto(consulta); // NO FIM SÓ FAZER UM UPDATE
+		
+		System.out.println(consulta);
+		consulta.setDat_con(dataDaConsulta);
+		ConsultaDAO.insertConsulta(consulta);
+		
+		
 	}
 
 }

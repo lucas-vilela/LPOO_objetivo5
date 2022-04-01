@@ -1,10 +1,13 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import java.util.List;
 
 import model.Tratamento;
@@ -115,8 +118,8 @@ public class TratamentoDAO extends BaseDAO {
 
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, trat.getAnimal().getId_animal());
-			pstmt.setString(2, trat.getData_ini());
-			pstmt.setString(3, trat.getData_fin());
+			pstmt.setDate(2, new Date(trat.getData_ini().getTimeInMillis()));
+			pstmt.setDate(3, new Date(trat.getData_fin().getTimeInMillis()));
 			
 
 			int count = pstmt.executeUpdate();
@@ -148,8 +151,8 @@ public class TratamentoDAO extends BaseDAO {
 		Tratamento t = new Tratamento();
 
 		t.setId_trat(rs.getInt("id_trat"));
-		t.setData_ini(rs.getString("dat_ini"));
-		t.setData_fin(rs.getString("dat_fin"));
+		t.setData_ini(dateToCalendar(rs.getDate("dat_ini")));
+		t.setData_fin(dateToCalendar(rs.getDate("dat_fin")));
 //		t.setConsultas(ConsultaDAO.selectConsultasByTratamento(rs.getInt("id_trat")));
 		t.setAnimal(AnimalDAO.selectAnimalById(rs.getInt("id_animal")));
 
@@ -160,8 +163,8 @@ public class TratamentoDAO extends BaseDAO {
 		Tratamento t = new Tratamento();
 
 		t.setId_trat(rs.getInt("id_trat"));
-		t.setData_ini(rs.getString("dat_ini"));
-		t.setData_fin(rs.getString("dat_fin"));
+		t.setData_ini(dateToCalendar(rs.getDate("dat_ini")));
+		t.setData_fin(dateToCalendar(rs.getDate("dat_fin")));
 		t.setConsultas(ConsultaDAO.selectConsultasByTratamento(rs.getInt("id_trat")));
 		t.setAnimal(AnimalDAO.selectAnimalById(rs.getInt("id_animal")));
 
@@ -173,5 +176,13 @@ public class TratamentoDAO extends BaseDAO {
 //		System.out.println(selectTratamentoById(1));
 		System.out.println(selectTratamentoByLastID());
 	}
+	
+	private static Calendar dateToCalendar(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal;
+	}
+	
+	
 	
 }

@@ -1,16 +1,19 @@
 package model;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Tratamento {
 	private Integer id_trat;
-	private String data_ini;
-	private String data_fin;
+	private Calendar data_ini;
+	private Calendar data_fin;
 	private Animal animal;
 	private List<Consulta> consultas = new ArrayList<>();
 	
-	public Tratamento(Integer id_trat, String data_ini, String data_fin, Animal animal, List<Consulta> consultas) {
+	public Tratamento(Integer id_trat, Calendar data_ini, Calendar data_fin, Animal animal, List<Consulta> consultas) {
 		super();
 		this.id_trat = id_trat;
 		this.data_ini = data_ini;
@@ -19,7 +22,7 @@ public class Tratamento {
 		this.consultas = consultas;
 	}
 	
-	public Tratamento(String data_ini, String data_fin, Animal animal, List<Consulta> consultas) {
+	public Tratamento(Calendar data_ini, Calendar data_fin, Animal animal, List<Consulta> consultas) {
 		super();
 		
 		this.data_ini = data_ini;
@@ -40,19 +43,19 @@ public class Tratamento {
 		this.id_trat = id_trat;
 	}
 
-	public String getData_ini() {
+	public Calendar getData_ini() {
 		return data_ini;
 	}
 
-	public void setData_ini(String data_ini) {
+	public void setData_ini(Calendar data_ini) {
 		this.data_ini = data_ini;
 	}
 
-	public String getData_fin() {
-		return data_fin;
+	public Calendar getData_fin() {
+		return data_ini;
 	}
 
-	public void setData_fin(String data_fin) {
+	public void setData_fin(Calendar data_fin) {
 		this.data_fin = data_fin;
 	}
 
@@ -75,13 +78,21 @@ public class Tratamento {
 	@Override
 	public String toString() {
 		return "\n    Id Tratamento: " + id_trat + 
-			   "\n    Data de início: " + data_ini + 
-			   "\n    Data de término: " + data_fin + 
+			   "\n    Data de início: " + calendarToString(data_ini) + 
+			   "\n    Data de término: " + calendarToString(data_fin) + 
 			   "\n    Pet: " + animal.getNome_animal() + 
 			   "\n    Consultas:\n" + consultas + "\n";
 	}
 	
+	//método utilitário
 	
+	private static String calendarToString(Calendar date) {
+		if(date != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+			return sdf.format(date.getTime());
+		}
+		return "00/00/0000"; 
+	}
 		
 	
 }
