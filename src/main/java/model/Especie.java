@@ -47,6 +47,7 @@ public class Especie {
 	@Override
 	public String toString() {
 		return "\n    Especie: " + nom_esp + 
+			   "      ID Especie: " + id_esp +
 			   "\n    Pets da especie: \n    " + animais;
 	}
 

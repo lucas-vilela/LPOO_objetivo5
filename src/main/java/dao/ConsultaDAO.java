@@ -91,7 +91,7 @@ public class ConsultaDAO extends BaseDAO {
 	}
 
 	
-	public static boolean insertConsulta(Consulta consulta) {
+	public static boolean insertConsulta(Consulta consulta,boolean op_trat) {
 		
 		final String sql_insert_tratamento = "insert into tratamento (id_animal,dat_ini,dat_fin) values(?,?,?)";
 		final String sql_insert_exame = "insert into exame (id_con,des_exame) values(?,?)";
@@ -123,35 +123,40 @@ public class ConsultaDAO extends BaseDAO {
 			                }
 			                rs.close(); 
 			
-			                pstmt_tratamento.setInt(1, consulta.getTratamento().getAnimal().getId_animal());
-			                pstmt_tratamento.setDate(2, new Date(consulta.getTratamento().getData_ini().getTimeInMillis()));
-			                pstmt_tratamento.setDate(3, new Date(consulta.getTratamento().getData_fin().getTimeInMillis()));
-			
-			                count = pstmt_tratamento.executeUpdate();
 			                
-			                if (count > 0) { // se inseriu a tratamento, pega o id dele
-						                	ResultSet rs2 = pstmt_tratamento.getGeneratedKeys();
-							                if (rs2.next()) {
-							                    id_trat = rs2.getLong(1);
-							                }
-							                rs2.close();
-						                
-						                
-							                pstmt_exame.setInt(1, (int)id_con);
-							    			pstmt_exame.setString(2, consulta.getExames().get(0).getDes_exame());
-							    			
-							    			pstmt_exame.executeUpdate();
-							    			
-							    			pstmt_update_consulta.setInt(1, (int)id_trat);
-							    			pstmt_update_consulta.setInt(2, consulta.getVeterinario().getId_vet());
-							    			pstmt_update_consulta.setDate(3, new Date(consulta.getDat_con().getTimeInMillis()));
-							    			pstmt_update_consulta.setString(4, consulta.getHistorico());
-							    			pstmt_update_consulta.setInt(5, (int)id_con);
-							    			
-							    			pstmt_update_consulta.executeUpdate();
-						    			
-						                	}
-							}
+			                if(op_trat == false) { // se vai seguir num tratamento que já existe pega o id que vem do controller
+			                	id_trat = consulta.getTratamento().getId_trat();
+			                }else {
+			                
+					                pstmt_tratamento.setInt(1, consulta.getTratamento().getAnimal().getId_animal());
+					                pstmt_tratamento.setDate(2, new Date(consulta.getTratamento().getData_ini().getTimeInMillis()));
+					                pstmt_tratamento.setDate(3, new Date(consulta.getTratamento().getData_fin().getTimeInMillis()));
+					
+					                pstmt_tratamento.executeUpdate();
+					                // se não vai seguir no mesmo, pega o id do novo tratamento inserido
+				                	ResultSet rs2 = pstmt_tratamento.getGeneratedKeys();
+					                if (rs2.next()) {
+					                    id_trat = rs2.getLong(1);
+					                }
+					                rs2.close();
+					                }   
+			                
+			                pstmt_exame.setInt(1, (int)id_con);
+			    			pstmt_exame.setString(2, consulta.getExames().get(0).getDes_exame());
+			    			pstmt_exame.executeUpdate();
+			    			
+			    			pstmt_update_consulta.setInt(1, (int)id_trat);
+			    			pstmt_update_consulta.setInt(2, consulta.getVeterinario().getId_vet());
+			    			pstmt_update_consulta.setDate(3, new Date(consulta.getDat_con().getTimeInMillis()));
+			    			pstmt_update_consulta.setString(4, consulta.getHistorico());
+			    			pstmt_update_consulta.setInt(5, (int)id_con);
+			    			
+			    			pstmt_update_consulta.executeUpdate();
+             
+			                }
+			                
+			                
+							
             conn.commit();
             conn.setAutoCommit(true);
                 /*
@@ -165,24 +170,6 @@ public class ConsultaDAO extends BaseDAO {
             }
         }
 
-//		final String sql = "insert into consulta (id_trat,id_vet,dat_con,historico) values(?,?,?,?)";
-//
-//		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
-//			pstmt.setInt(1, consulta.getTratamento().getId_trat());
-//			pstmt.setInt(2, consulta.getVeterinario().getId_vet());
-//			pstmt.setDate(3, new Date(consulta.getDat_con().getTimeInMillis()));
-//			pstmt.setString(4, consulta.getHistorico());
-//			
-//
-//			int count = pstmt.executeUpdate();
-//
-//			return count > 0;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-
-//	}
 	
 	public static boolean insertConsultaVazia() {
 
@@ -239,18 +226,93 @@ public class ConsultaDAO extends BaseDAO {
 	}
 	
 	
-	public static void deleteConsulta(int id) {
-		final String sql = "delete from consulta where id_con=?";
-		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			pstmt.setInt(1, id);
+	public static String deleteConsulta(int id) {
+		String status = "Falha ao deletar consulta.";
+	
+		final String sql_delete_tratamento = "delete from tratamento where id_trat=?";
+		final String sql_delete_exame = "delete from exame where id_con=?";
+		final String sql_delete_consulta = "delete from consulta where id_con=?";
+		
+		try
+        (
+        		Connection conn = getConnection();
+        		PreparedStatement pstmt_tratamento = conn.prepareStatement(sql_delete_tratamento);
+        		PreparedStatement pstmt_exame = conn.prepareStatement(sql_delete_exame);
+				PreparedStatement pstmt_consulta = conn.prepareStatement(sql_delete_consulta);
+		)
+        {
+//            /*
+//                Inicia a transação, desligando o autocommit.
+//             */
+//			conn.setAutoCommit(false);
+//			int id_trat = selectConsultaById(id).getTratamento().getId_trat();
+//			
+//			
+//			pstmt_exame.setInt(1, selectConsultaById(id).getExames().get(0).getId_exame());
+//			System.out.println(selectConsultaById(id).getExames().get(0).getId_exame());
+//			pstmt_exame.executeUpdate();
+//			
+//			pstmt_consulta.setInt(1, id);
+//			System.out.println(id);
+//			pstmt_consulta.executeUpdate();
+//			
+//			
+//			pstmt_tratamento.setInt(1, id_trat);
+//			System.out.println(id_trat);
+//			pstmt_tratamento.executeUpdate();
 			
-			pstmt.executeQuery();		
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-	}
+			pstmt_consulta.setInt(1, id);
+			pstmt_consulta.executeUpdate();
+			
+			
+			
+			
+			
+			
+			
+			status = "Consulta de id: " + id + "excluída.";
+			
+			
+			
+			conn.commit();
+            conn.setAutoCommit(true);
+                /*
+                    Fim da transação ao comitar. Religa o autocomit, assim outros comportamentos da classe
+                    ficam liberados para realizar as operações com o autocommit.
+                 */
+                return status;
+            }catch (SQLException e){
+                e.printStackTrace();
+                return status;
+            }
+        }
+				
+		
+		
+		
+		
+		
+//		final String sql = "delete from consulta where id_con=?";
+//		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+//			pstmt.setInt(1, id);
+//			
+//				TratamentoDAO.deleteTratamento(selectConsultaById(id).getTratamento().getId_trat());
+//				ExameDAO.deleteExameByIdCon(id);
+//				int count = pstmt.executeUpdate();
+//
+//				if (count > 0) {
+//					status = "Foi excluída a consulta de id: " + id;
+//					return status;
+//				}
+//			
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return status;
+//
+//	}
 	
 	private static Consulta resultsetToConsultaSoID(ResultSet rs) throws SQLException {
 		Consulta c = new Consulta();

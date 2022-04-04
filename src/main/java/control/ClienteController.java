@@ -51,7 +51,9 @@ public class ClienteController {
 
 		Scanner input = new Scanner(System.in);
 		String nome, endereco, telefone, cep, email;
+		int confirma;
 
+		do {
 		System.out.println("\n************* INSERIR CLIENTE ***********\n");
 		System.out.println("    Nome: ");
 		nome = input.nextLine();
@@ -64,26 +66,39 @@ public class ClienteController {
 		System.out.println("    E-mail: ");
 		email = input.nextLine();
 
+		
+
+		System.out.println("    Confirma? (0 não / 1 sim ) ");
+		confirma = input.nextInt();
+		input.nextLine();
+		System.out.println("\n*****************************************\n");
+		
+		}while(confirma != 1);
 		Cliente newcliente = new Cliente(nome, endereco, telefone, cep, email);
 		ClienteDAO.insertCliente(newcliente);
-
-		System.out.println("\n*****************************************\n");
 	}
 	
 	private static void deleteCliente() {
 		
 		Scanner input = new Scanner(System.in);
-		Integer id;
+		Integer id,confirma;
 		
-		
+		do {
 		System.out.println("\n************ EXCLUIR CLIENTE ************\n");
 		
 		System.out.println("    Digite o id do Cliente que será excluido: ");
 		id = input.nextInt();
 		
-		ClienteDAO.deleteCliente(id);
 		
+		
+		System.out.println("    Confirma? (0 não / 1 sim ) ");
+		confirma = input.nextInt();
+		input.nextLine();
 		System.out.println("\n*****************************************\n");
+		
+		}while(confirma != 1);
+		
+		ClienteDAO.deleteCliente(id);
 	}
 
 }

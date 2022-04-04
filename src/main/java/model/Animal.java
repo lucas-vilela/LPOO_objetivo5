@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.TratamentoDAO;
+
 public class Animal {
 
 	private Integer id_animal;
@@ -105,7 +107,7 @@ public class Animal {
 			    "\n    Sexo (0-Fêmea / 1-Macho) : " + sexo_animal + 
 			    "\n    Especie: " + especie.getNom_esp() + 
 			    "\n    Dono(a): "  + (cliente != null ? cliente.getNom_cli() : "") +
-			    "\n    Tratamentos: " + tratamentos;
+			    "\n    Tratamentos: " + TratamentoDAO.selectTratamentosByIdAnimal(id_animal);
 	}
 	
 	

@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Exame;
 import model.Veterinario;
 
 public class VeterinarioDAO extends BaseDAO {
@@ -46,11 +45,10 @@ public class VeterinarioDAO extends BaseDAO {
 		}
 
 	}
-	
-	
+
 	public static boolean insertVeterinario(Veterinario vet) {
 
-		final String sql = "insert into exame (nom_vet,end_vet,tel_vet) values(?,?,?)";
+		final String sql = "insert into veterinario (nom_vet,end_vet,tel_vet) values(?,?,?)";
 
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, vet.getNom_vet());
@@ -66,21 +64,29 @@ public class VeterinarioDAO extends BaseDAO {
 		}
 
 	}
-	
-	
-	public static void deleteVeterinario(int id) {
+
+	public static String deleteVeterinario(int id) {
+		String status = "Falha";
 		final String sql = "delete from veterinario where id_vet=?";
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, id);
-			
-			pstmt.executeQuery();		
-			
+
+			if (selectVeterinarioById(id) != null) {
+				String nome = selectVeterinarioById(id).getNom_vet();
+
+				int count = pstmt.executeUpdate();
+
+				if (count > 0) {
+					status = nome + " não voltou do paredão :( \npress F to respect...";
+					return status;
+				}
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		return status;
 	}
-	
 
 	private static Veterinario resultsetToVeterinario(ResultSet rs) throws SQLException {
 		Veterinario v = new Veterinario();

@@ -10,6 +10,7 @@ public class Home {
 		Scanner input = new Scanner(System.in);
 		
 		int opcao = 0;
+		String confirma;
 		
 		do {
 			System.out.println("================== HOME =================");
@@ -26,6 +27,7 @@ public class Home {
 					);
 			System.out.println("=========================================");
 			opcao = input.nextInt();
+			
 			switch(opcao) {
 			
 			case 1:

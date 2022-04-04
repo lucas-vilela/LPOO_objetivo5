@@ -88,17 +88,28 @@ public class ClienteDAO extends BaseDAO {
 
 	}
 	
-	public static void deleteCliente(int id) {
+	public static String deleteCliente(int id) {
+		String status = "Falha";
 		final String sql = "delete from cliente where id_cli=?";
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, id);
 			
-			pstmt.executeQuery();		
+			if(selectClienteById(id) != null) {
+				
+			String nome = ClienteDAO.selectClienteById(id).getNom_cli();
+			
+			int count = pstmt.executeUpdate();		
+			
+			if(count > 0) {
+				status = nome +" não voltou do paredão :( \npress F to respect...";
+				return status; 
+			}
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		return status;
 	}
 	
 

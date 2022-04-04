@@ -6,9 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import model.Animal;
-import model.Cliente;
+
 
 
 public class AnimalDAO extends BaseDAO {
@@ -131,17 +130,25 @@ public class AnimalDAO extends BaseDAO {
 	}
 	
 	
-	public static void deleteAnimal(int id) {
+	public static String deleteAnimal(int id) {
+		String status = "Falha";
 		final String sql = "delete from animal where id_animal=?";
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, id);
 			
-			pstmt.executeQuery();
+			String nome = AnimalDAO.selectAnimalById(id).getNome_animal();
+			
+			int count = pstmt.executeUpdate();
+			
+			if(count > 0) {
+				status = "x_x  Você sacrificou o(a) "+ nome + " \npress F to respect...";
+				return status; 
+			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace();	
 		}
-
+		return status;
 	}
 	
 

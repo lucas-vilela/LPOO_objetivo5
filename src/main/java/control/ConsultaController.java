@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import dao.AnimalDAO;
 import dao.ConsultaDAO;
+import dao.VeterinarioDAO;
 
 public class ConsultaController {
 	
@@ -18,7 +19,8 @@ public class ConsultaController {
 			do {
 				System.out.println("============= MENU CONSULTAS ============");
 				System.out.println(
-						  "\n    1) Listar CONSULTAS."
+						  "\n    1) Listar CONSULTAS." +
+						  "\n    1) Excluir CONSULTA."
 
 					    + "\n\n    Pressione 0 para voltar ao menu...\n"
 						);
@@ -27,7 +29,10 @@ public class ConsultaController {
 				switch(opcao) {
 				
 				case 1:
-					selectAnimais();
+					selectConsultas();
+					break;
+				case 2:
+					deleteConsulta();
 					break;
 
 					default:
@@ -37,9 +42,32 @@ public class ConsultaController {
 			
 		}
 		
-		private static void selectAnimais() {
+		private static void selectConsultas() {
 			System.out.println("\n************** CONSULTAS ****************\n"+ ConsultaDAO.selectConsulta());
 			System.out.println("\n*****************************************\n");
+		}
+		
+		private static void deleteConsulta() {
+			
+			Scanner input = new Scanner(System.in);
+			Integer id,confirma;
+			
+			do {
+			System.out.println("\n*********** EXCLUIR CONSULTA ************\n");
+			
+			System.out.println("    Digite o id do Consulta que será excluida:\n\nObs: serão excluídos os exames relacionados a essa consulta ");
+			id = input.nextInt();
+			
+			 
+			
+			System.out.println("    Confirma? (0 não / 1 sim ) ");
+			confirma = input.nextInt();
+			input.nextLine();
+			System.out.println("\n*****************************************\n");
+			
+			}while(confirma != 1);
+			
+			System.out.println(ConsultaDAO.deleteConsulta(id));
 		}
 
 		

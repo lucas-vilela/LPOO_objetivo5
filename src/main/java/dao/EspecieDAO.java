@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Especie;
-import model.Exame;
+
 
 public class EspecieDAO extends BaseDAO {
 

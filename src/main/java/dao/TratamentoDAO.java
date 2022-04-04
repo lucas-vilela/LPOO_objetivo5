@@ -7,11 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import java.util.List;
-
 import model.Tratamento;
-import model.Veterinario;
+
 
 
 
@@ -101,6 +99,27 @@ public class TratamentoDAO extends BaseDAO {
 			}
 			rs.close();
 			return tratamento;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	
+	public static List<Tratamento> selectTratamentosByIdAnimal(int id) {
+		final String sql = "select * from tratamento where id_animal=?";
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);){
+			
+			pstmt.setInt(1, id);
+			
+			ResultSet rs = pstmt.executeQuery(); 
+			
+			List<Tratamento> tratamentos = new ArrayList<>();
+			while (rs.next()) {
+				tratamentos.add(resultsetToTratamento(rs));
+			}
+			return tratamentos;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

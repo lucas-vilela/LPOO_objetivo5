@@ -6,12 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import model.Animal;
-import model.Cliente;
-import model.Consulta;
 import model.Exame;
-import model.Tratamento;
+
 
 
 
@@ -169,6 +165,19 @@ public class ExameDAO extends BaseDAO {
 	
 	public static void deleteExame(int id) {
 		final String sql = "delete from exame where id_exame=?";
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			pstmt.setInt(1, id);
+			
+			pstmt.executeQuery();		
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static void deleteExameByIdCon(int id) {
+		final String sql = "delete from exame where id_con=?";
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, id);
 			
